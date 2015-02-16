@@ -1,0 +1,10 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    god (0.13.5)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  god
