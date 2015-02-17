@@ -46,7 +46,7 @@ namespace :deploy do
   task :stop do
     on roles(:app), in: :sequence, wait: 5 do
       within "#{release_path}" do
-        execute "bin/panopticon", "stop"
+        execute "bin/panopticon", "stop", raise_on_non_zero_exit: false
       end
     end
   end
