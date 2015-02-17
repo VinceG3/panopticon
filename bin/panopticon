@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+require 'thor'
+
+class Panopticon < Thor
+  desc "daemonize", "run daemonized"
+  def daemonize
+    exec "god -c Godfile -l ./log/daemon.log -P ./log/panopticon.pid"
+  end
+
+  desc "console", "run in console"
+  def console
+    exec "god -c Godfile -D"
+  end
+
+  desc "stop", "stop service"
+  def stop
+    exec "god quit"
+  end
+end
+
+Panopticon.start(ARGV)
