@@ -1,6 +1,6 @@
 ProjectName = 'proximeter'
 DevDirectory = File.join('/', 'home', 'vince', 'src', ProjectName)
-ProdDirectory = File.join('/', 'home', 'deploy', ProjectName)
+ProdDirectory = File.join('/', 'home', 'deploy', ProjectName, "current")
 Directory = ProdDirectory
 start_command = "cd #{Directory} && " << File.join("bin", ProjectName)
 StartCommand = "(#{start_command})"
