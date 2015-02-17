@@ -1,19 +1,23 @@
+STDOUT.sync
+
 ProjectName = 'proximeter'
 DevDirectory = File.join('/', 'home', 'vince', 'src', ProjectName)
 ProdDirectory = File.join('/', 'home', 'deploy', ProjectName, "current")
-Directory = ProdDirectory
-start_command = "cd #{Directory} && " << File.join("bin", ProjectName)
-StartCommand = "(#{start_command})"
+Directory = DevDirectory
+start_command = "cd #{Directory} && bundle exec " << File.join("bin", ProjectName)
+StartCommand = start_command
 StopCommand = "#{StartCommand} -k"
 PidFile = File.join(Directory, "log", "#{ProjectName}.pid")
+LogFile = File.join(Directory, "log", "#{ProjectName}.log")
 
 God.watch do |w|
-	w.name = ProjectName
-	w.start = StartCommand
-	w.stop = StopCommand
+  w.name = ProjectName
+  w.start = StartCommand
+  w.stop = StopCommand
   w.restart = StartCommand
-	w.pid_file = PidFile
-  w.log = './log/daemon.log' if $dont_daemonize
+  w.pid_file = PidFile
+  w.log = LogFile
+  w.dir = Directory
 
   w.interval        = 30.seconds
   w.start_grace     = 15.seconds

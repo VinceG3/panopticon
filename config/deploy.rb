@@ -43,6 +43,15 @@ namespace :deploy do
     end
   end
 
+  task :stop do
+    on roles(:app), in: :sequence, wait: 5 do
+      within "#{release_path}" do
+        execute "bin/panopticon", "stop"
+      end
+    end
+  end
+
+  after 'deploy:started', 'deploy:stop'
   after 'deploy:publishing', 'deploy:restart'
 
 end
