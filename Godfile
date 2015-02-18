@@ -1,10 +1,8 @@
-STDOUT.sync
-
 ProjectName = 'proximeter'
 DevDirectory = File.join('/', 'home', 'vince', 'src', ProjectName)
 ProdDirectory = File.join('/', 'home', 'deploy', ProjectName, "current")
 Directory = ProdDirectory
-start_command = "cd #{Directory} && bundle exec " << File.join("bin", ProjectName)
+start_command = File.join("bin", ProjectName)
 StartCommand = start_command
 StopCommand = "#{StartCommand} -k"
 PidFile = File.join(Directory, "log", "#{ProjectName}.pid")

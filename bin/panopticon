@@ -4,17 +4,17 @@ require 'thor'
 class Panopticon < Thor
   desc "daemonize", "run daemonized"
   def daemonize
-    exec "bin/god -c Godfile -l ./log/daemon.log -P ./log/panopticon.pid"
+    exec "god -c Godfile -l ./log/daemon.log -P ./log/panopticon.pid"
   end
 
   desc "console", "run in console"
   def console
-    exec "bin/god -c Godfile -D --log-level debug"
+    exec "god -c Godfile -D"
   end
 
   desc "stop", "stop service"
   def stop
-    exec "bin/god quit"
+    exec "god quit"
   end
 end
 
