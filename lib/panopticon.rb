@@ -1,6 +1,6 @@
 module Panopticon
   def run!(file = './PanopticonFile')
-    
+
   end
 
   class Monitor
@@ -30,7 +30,7 @@ module Panopticon
     end
 
     def environment
-      :dev
+      :prod
     end
 
     def directory
