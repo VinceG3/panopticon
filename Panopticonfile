@@ -1,0 +1,3 @@
+require './lib/panopticon'
+
+Panopticon::Monitor.new("proximeter").watch
