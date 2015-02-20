@@ -1,5 +1,5 @@
-$environment = :dev
-# $environment = :prod
+# $environment = :dev
+$environment = :prod
 
 module Panopticon
   class Monitor
