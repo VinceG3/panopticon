@@ -1,8 +1,7 @@
+$environment = :dev
+# $environment = :prod
+
 module Panopticon
-  def run!(file = './PanopticonFile')
-
-  end
-
   class Monitor
     attr_reader :project_name
 
@@ -30,7 +29,7 @@ module Panopticon
     end
 
     def environment
-      :prod
+      $environment
     end
 
     def directory
@@ -66,4 +65,25 @@ module Panopticon
       end
     end
   end
+
+  class Dsl
+    attr_reader :file
+    def initialize(file)
+      @file = file
+    end
+
+    def self.parse(file = './Panopticonfile')
+      new(file).parse
+    end
+
+    def parse
+      instance_eval(IO.read(file))
+    end
+
+    def watch(project)
+      Monitor.new(project).watch
+    end
+  end
 end
+
+Panopticon::Dsl.parse
