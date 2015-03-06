@@ -4,7 +4,7 @@ $environment = :prod
 module Panopticon
   def self.daemonize(config = nil)
     if config.nil?
-      File.delete('./panopticon_temp')
+      File.delete('./panopticon_temp') if File.exists?('./panopticon_temp')
       exec "god -c lib/god.rb -l ./log/daemon.log -P ./log/panopticon.pid"
     else
       make_temp_file(config)
