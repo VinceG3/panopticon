@@ -1,21 +1,32 @@
 #!/usr/bin/env ruby
 require 'thor'
+require './lib/panopticon'
 
-class Panopticon < Thor
+args = ARGV.clone
+if ARGV.include?('-p')
+  args.delete('-p')
+  require "readline"
+  Readline.input = IO.new(IO.sysopen("/dev/tty", "r+"))
+  ARGV.clear
+  $config = ARGF.read
+end
+
+class Command < Thor
   desc "daemonize", "run daemonized"
   def daemonize
-    exec "god -c lib/panopticon.rb -l ./log/daemon.log -P ./log/panopticon.pid"
+    Panopticon.daemonize($config)
   end
 
   desc "console", "run in console"
   def console
-    exec "god -c lib/panopticon.rb -D"
+    P
+    anopticon.console($config)
   end
 
   desc "stop", "stop service"
   def stop
-    exec "god quit"
+    Panopticon.stop
   end
 end
 
-Panopticon.start(ARGV)
+Command.start(args)

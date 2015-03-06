@@ -2,6 +2,35 @@
 $environment = :prod
 
 module Panopticon
+  def self.daemonize(config = nil)
+    if config.nil?
+      File.delete('./panopticon_temp')
+      exec "god -c lib/god.rb -l ./log/daemon.log -P ./log/panopticon.pid"
+    else
+      make_temp_file(config)
+      exec "god -c lib/god.rb -l ./log/daemon.log -P ./log/panopticon.pid"
+    end
+  end
+
+  def self.console(config = nil)
+    if config.nil?
+      tempfile = './panopticon_temp'
+      File.delete(tempfile) if File.exists?(tempfile)
+      exec "god -c lib/god.rb -D"
+    else
+      make_temp_file(config)
+      exec "god -c lib/god.rb -D"
+    end
+  end
+
+  def self.stop(config = nil)
+    exec "god quit"
+  end
+
+  def self.make_temp_file(contents)
+    IO.write('panopticon_temp', contents)
+  end
+
   class Monitor
     attr_reader :project_name
 
@@ -12,12 +41,16 @@ module Panopticon
       @log_file = log_file
     end
 
-    def start_command
+    def executable
       File.join("bin", project_name)
     end
 
+    def start_command
+      "#{executable} daemon"
+    end
+
     def stop_command
-      "#{start_command} -k"
+      "#{executable} stop"
     end
 
     def pid_file
@@ -73,7 +106,11 @@ module Panopticon
     end
 
     def self.parse(file = './Panopticonfile')
-      new(file).parse
+      if File.exists?('./panopticon_temp')
+        new('./panopticon_temp').parse
+      else
+        new(file).parse
+      end
     end
 
     def parse
@@ -85,5 +122,3 @@ module Panopticon
     end
   end
 end
-
-Panopticon::Dsl.parse
