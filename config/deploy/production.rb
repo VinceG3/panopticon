@@ -43,4 +43,4 @@ role :nanna, %w{deploy@nanna}
 #     # password: 'please use keys'
 #   }
 set :bundle_binstubs, -> { shared_path.join('bin') }
-set :linked_files, %w{bin/god}
+# set :linked_files, %w{bin/god}
