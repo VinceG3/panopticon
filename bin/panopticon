@@ -19,8 +19,7 @@ class Command < Thor
 
   desc "console", "run in console"
   def console
-    P
-    anopticon.console($config)
+    Panopticon.console($config)
   end
 
   desc "stop", "stop service"

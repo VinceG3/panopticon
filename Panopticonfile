@@ -1,1 +1,1 @@
-watch "proximeter"
+watch "proximeter", on: ["nanna", "freyja"]
