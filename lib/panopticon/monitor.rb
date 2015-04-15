@@ -10,7 +10,7 @@ module Panopticon
     end
 
     def environment
-      return :prod if ENV["USER"] == "deploy"
+      return :prod if ENV["USER"] == "deploy" or ENV["USER"].nil?
       return :dev
     end
 
