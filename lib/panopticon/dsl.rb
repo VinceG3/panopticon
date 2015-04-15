@@ -6,11 +6,7 @@ module Panopticon
     end
 
     def self.parse(file = './Panopticonfile')
-      if File.exists?('./panopticon_temp')
-        new('./panopticon_temp').parse
-      else
-        new(file).parse
-      end
+      new(file).parse
     end
 
     def parse
@@ -19,7 +15,7 @@ module Panopticon
 
     def watch(project, options = {})
       @hosts = options[:on]
-      Monitor.new(project).watch if watch_on_this_host?
+      Monitor.add(Monitor.new(project, options)) if watch_on_this_host?
     end
 
     private

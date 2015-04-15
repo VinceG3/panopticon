@@ -1,2 +1,3 @@
 .capistrano/
 panopticon_temp
+log/daemon.log

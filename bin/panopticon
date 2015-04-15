@@ -1,31 +1,51 @@
 #!/usr/bin/env ruby
+require 'pry' unless ENV["USER"] == "deploy"
 require 'thor'
+require 'dante'
 require './lib/panopticon'
 
-args = ARGV.clone
-if ARGV.include?('-p')
-  args.delete('-p')
-  require "readline"
-  Readline.input = IO.new(IO.sysopen("/dev/tty", "r+"))
-  ARGV.clear
-  $config = ARGF.read
-end
+# args = ARGV.clone
+# if ARGV.include?('-p')
+#   args.delete('-p')
+#   require "readline"
+#   Readline.input = IO.new(IO.sysopen("/dev/tty", "r+"))
+#   ARGV.clear
+#   $config = ARGF.read
+# end
 
 class Command < Thor
   desc "daemonize", "run daemonized"
   def daemonize
-    Panopticon.daemonize($config)
+    runner.options[:daemonize] = true
+    execute
   end
 
   desc "console", "run in console"
   def console
-    Panopticon.console($config)
+    runner.options[:daemonize] = false
+    execute
   end
 
   desc "stop", "stop service"
   def stop
-    Panopticon.stop
+    runner.options[:kill] = true
+    execute
+  end
+
+  private
+
+  def runner
+    @runner ||= Dante::Runner.new('panopticon',
+                                  log_path: './log/daemon.log',
+                                  pid_path: './log/panopticon.pid')
+  end
+
+  def execute
+    runner.execute(restart: true) do |opts|
+      Panopticon::Dsl.parse
+      Panopticon::Monitor.watch
+    end
   end
 end
 
-Command.start(args)
+Command.start(ARGV)
