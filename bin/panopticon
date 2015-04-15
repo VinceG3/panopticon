@@ -42,6 +42,7 @@ class Command < Thor
 
   def execute
     runner.execute(restart: true) do |opts|
+      puts "Starting Panopticon as user: #{ENV["USER"].inspect}"
       Panopticon::Dsl.parse
       Panopticon::Monitor.watch
     end
