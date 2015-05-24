@@ -6,6 +6,7 @@
 
 role :freyja, %w{deploy@freyja}
 role :nanna, %w{deploy@nanna}
+role :blinky, %{deploy@blinky}
 
 
 # Extended Server Syntax
