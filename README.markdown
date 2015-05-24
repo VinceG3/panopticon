@@ -9,9 +9,3 @@ Make sure there's no errors
 Run `bin/panopticon daemonize`
 add cron job to start the server
     @reboot ( cd /home/deploy/panopticon/current && bin/panopticon daemonize )
-reboot machine
-
-TODO
-====
-
-Find out best way to get project to start on boot.
