@@ -23,6 +23,10 @@ module Panopticon
       end
     end
 
+    def self.empty?
+      @monitors.empty?
+    end
+
     def self.add(monitor)
       @monitors << monitor
     end
@@ -66,6 +70,7 @@ module Panopticon
     end
 
     def self.watch
+      @monitors.each {|monitor| puts "Watching #{monitor.project_name}" }
       loop do
         @monitors.each(&:check)
         sleep 5

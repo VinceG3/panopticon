@@ -11,11 +11,15 @@ module Panopticon
 
     def parse
       instance_eval(IO.read(file))
+      puts "No monitors found!" if Monitor.empty?
     end
 
     def watch(project, options = {})
       @hosts = options[:on]
-      Monitor.add(Monitor.new(project, options)) if watch_on_this_host?
+      if watch_on_this_host?
+        puts "Found #{project}"
+        Monitor.add(Monitor.new(project, options))
+      end
     end
 
     private
